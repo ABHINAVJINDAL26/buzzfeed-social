@@ -4,17 +4,9 @@ import Navbar from '../components/Navbar';
 import api from '../api/axios';
 
 const Wallet = () => {
-  const [darkMode, setDarkMode] = useState(false);
   const { points, walletBalance, inrValue, refreshPoints } = usePoints();
   const [history, setHistory] = useState([]);
   const [converting, setConverting] = useState(false);
-
-  useEffect(() => {
-    document.body.classList.toggle('dark', darkMode);
-    return () => {
-      document.body.classList.remove('dark');
-    };
-  }, [darkMode]);
 
   useEffect(() => {
     fetchHistory();
@@ -47,8 +39,6 @@ const Wallet = () => {
   return (
     <div className="app-shell">
       <Navbar
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
         searchTerm=""
         onSearchChange={() => {}}
       />

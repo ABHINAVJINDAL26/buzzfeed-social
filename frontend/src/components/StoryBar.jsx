@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import axiosInstance from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
@@ -109,9 +110,18 @@ export default function StoryBar() {
       )}
 
       {/* Add Story Form */}
-      {addOpen && (
-        <div className="story-form-popup">
-          <p style={{ margin: '0 0 8px', fontWeight: 700, fontSize: 14 }}>📸 Add a Story</p>
+      {addOpen && createPortal(
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999,
+          backdropFilter: 'blur(4px)'
+        }} onClick={() => setAddOpen(false)}>
+          <div style={{
+            background: 'var(--surface)', border: '1px solid var(--border)', 
+            padding: '20px', borderRadius: '16px', width: '320px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.8)', display: 'flex', flexDirection: 'column'
+          }} onClick={e => e.stopPropagation()}>
+            <p style={{ margin: '0 0 12px', fontWeight: 800, fontSize: '1.2rem', color: 'var(--text)' }}>📸 Add a Story</p>
           <input
             className="input"
             placeholder="Paste image URL…"
@@ -143,7 +153,9 @@ export default function StoryBar() {
               Cancel
             </button>
           </div>
-        </div>
+          </div>
+        </div>,
+        document.body
       )}
 
       {/* Story Viewer Modal */}

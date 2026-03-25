@@ -42,6 +42,7 @@ app.use('/api/wallet',  require('./routes/wallet'));
 app.use('/api/friends', require('./routes/friends'));
 app.use('/api/follow',  require('./routes/follow'));
 app.use('/api/stories', require('./routes/stories'));
+app.use('/api/users',   require('./routes/users'));
 
 
 // Socket.io

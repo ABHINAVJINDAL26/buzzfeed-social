@@ -6,7 +6,14 @@ const authMiddleware = require('../middleware/authMiddleware');
 // GET /api/stories  — fetch all non-expired stories (newest first)
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const stories = await Story.find({ expiresAt: { $gt: new Date() } })
+    const User = require('../models/User');
+    const me = await User.findById(req.user.userId);
+    const validAuthors = [...me.following, req.user.userId];
+
+    const stories = await Story.find({ 
+      author: { $in: validAuthors },
+      expiresAt: { $gt: new Date() } 
+    })
       .populate('author', 'username')
       .sort({ createdAt: -1 });
     res.json(stories);

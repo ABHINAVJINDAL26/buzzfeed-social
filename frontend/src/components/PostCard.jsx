@@ -61,8 +61,8 @@ export default function PostCard({ post, onLikePost, onCommentPost, style }) {
           </div>
           <div className="post-time">{formatDate(post.createdAt)}</div>
         </div>
-        {user?.username !== post.author?.username && (
-          <FollowButton targetUserId={post.author?._id} initialFollowing={initialFollowing} className="follow-chip" />
+        {String(currentUserId) !== String(post.author?.userId) && (
+          <FollowButton targetUserId={post.author?.userId} initialFollowing={initialFollowing} className="follow-chip" />
         )}
       </div>
 

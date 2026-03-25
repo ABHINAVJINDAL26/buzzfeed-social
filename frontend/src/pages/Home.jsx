@@ -20,7 +20,7 @@ const FILTERS = [
 ];
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [querySearch, setQuerySearch] = useState('');
@@ -37,12 +37,7 @@ export default function Home() {
   const { user } = useAuth();
   const currentUserId = user?.userId || user?._id;
 
-  useEffect(() => {
-    document.body.classList.toggle('dark', darkMode);
-    return () => {
-      document.body.classList.remove('dark');
-    };
-  }, [darkMode]);
+
 
   useEffect(() => {
     const timeout = setTimeout(() => {

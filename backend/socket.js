@@ -67,6 +67,17 @@ module.exports = (io) => {
       }
     });
 
+    // Real-time follow notification
+    socket.on('user:followed', ({ targetUserId, byUser }) => {
+      const targetSocket = onlineUsers.get(targetUserId);
+      if (targetSocket) {
+        io.to(targetSocket).emit('notification:new', {
+          type: 'friend_request',
+          message: `${byUser} started following you`
+        });
+      }
+    });
+
     // User disconnects
     socket.on('disconnect', async () => {
       if (socket.userId) {

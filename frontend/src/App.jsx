@@ -4,8 +4,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Wallet from './pages/Wallet';
+import Profile from './pages/Profile';
 import { useAuth } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -37,6 +39,14 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/profile/:username"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/login"
         element={
           <PublicOnlyRoute>
@@ -63,20 +73,22 @@ export default function App() {
 
   return (
     <SocketProvider userId={currentUserId}>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          style: {
-            borderRadius: '12px',
-            background: 'var(--surface, #1e1e28)',
-            color: 'var(--text, #e8e8ef)',
-            border: '1px solid var(--border, #2a2a38)',
-            fontSize: '13px',
-            fontWeight: '500'
-          }
-        }}
-      />
-      <AppRoutes />
+      <ThemeProvider>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              borderRadius: '12px',
+              background: 'var(--surface, #1e1e28)',
+              color: 'var(--text, #e8e8ef)',
+              border: '1px solid var(--border, #2a2a38)',
+              fontSize: '13px',
+              fontWeight: '500'
+            }
+          }}
+        />
+        <AppRoutes />
+      </ThemeProvider>
     </SocketProvider>
   );
 }

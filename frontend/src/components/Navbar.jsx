@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { usePoints } from '../context/PointsContext';
 import { useSocket } from '../context/SocketContext';
+import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-export default function Navbar({ darkMode, onToggleDarkMode, searchTerm, onSearchChange }) {
+export default function Navbar({ searchTerm, onSearchChange }) {
   const { user, logout }            = useAuth();
   const { points, walletBalance }   = usePoints();
   const { notifications, clearNotifications } = useSocket();
+  const { isDarkMode, toggleTheme } = useTheme();
   const navigate                    = useNavigate();
   const [showNotifs, setShowNotifs] = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
@@ -19,8 +21,13 @@ export default function Navbar({ darkMode, onToggleDarkMode, searchTerm, onSearc
     <header className="navbar">
       {/* ── Row 1: Brand + Hamburger ── */}
       <div className="navbar-top">
-        <div className="brand-wrap" onClick={() => navigate('/')}>
-          <h1 className="brand-title">Social</h1>
+        <div className="brand-wrap" onClick={() => navigate('/')} style={{display:'flex', alignItems:'center', gap:'8px', cursor:'pointer'}}>
+          <div className="auth-trophy-icon" style={{width: 32, height: 32, marginBottom:0, flexShrink:0}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00E1FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"></path>
+            </svg>
+          </div>
+          <h1 className="auth-logo-title" style={{fontSize: '1.4rem'}}>NOVA<span className="auth-logo-dot" style={{width:6, height:6}}></span></h1>
         </div>
 
         {/* Desktop: center search + home */}
@@ -43,7 +50,7 @@ export default function Navbar({ darkMode, onToggleDarkMode, searchTerm, onSearc
             notifications={notifications} unreadCount={unreadCount}
             showNotifs={showNotifs} setShowNotifs={setShowNotifs}
             clearNotifications={clearNotifications}
-            onToggleDarkMode={onToggleDarkMode}
+            onToggleDarkMode={toggleTheme}
             user={user} logout={logout} navigate={navigate}
           />
         </div>
@@ -106,7 +113,7 @@ export default function Navbar({ darkMode, onToggleDarkMode, searchTerm, onSearc
           <div className="mobile-menu-divider" />
           <div className="mobile-menu-row">
             <span>⭐ {points} pts</span>
-            <button className="icon-btn" onClick={onToggleDarkMode} title="Toggle Theme">🌙</button>
+            <button className="icon-btn" onClick={toggleTheme} title="Toggle Theme">{isDarkMode ? '☀️' : '🌙'}</button>
             <button className="button-text small" onClick={() => { logout(); setMenuOpen(false); }}>
               Log out
             </button>
@@ -187,10 +194,18 @@ function NavActions({ points, walletBalance, notifications, unreadCount, showNot
         )}
       </div>
 
-      <button className="icon-btn" onClick={onToggleDarkMode} title="Toggle Theme">🌙</button>
+      <button className="icon-btn" onClick={onToggleDarkMode} title="Toggle Theme">☀️</button>
 
       <div className="profile-group">
-        <div className="avatar avatar-gradient">{user?.username ? user.username.charAt(0).toUpperCase() : 'U'}</div>
+        <div 
+          className="avatar avatar-gradient" 
+          onClick={() => {
+            if (user?.username) navigate(`/profile/${user.username}`);
+          }}
+          style={{cursor: 'pointer'}}
+        >
+          {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
+        </div>
         <button className="button-text small" onClick={logout}>Log out</button>
       </div>
     </div>
