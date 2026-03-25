@@ -1,0 +1,288 @@
+/* ================================================================
+   RESPONSIVE.CSS  —  Full mobile-first responsive overrides
+   Breakpoints:
+     xs:   < 480px   (small phones)
+     sm:   480–640px (large phones)
+     md:   640–920px (tablets)
+     lg:   > 920px   (desktop)  ← base layout already defined
+   ================================================================ */
+
+/* ── 1. Global Box / Shell ───────────────────────────────────── */
+.app-shell {
+  padding: 0.6rem;
+}
+
+/* ── 2. Navbar ───────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+}
+
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  gap: 0.5rem;
+}
+
+/* Brand */
+.brand-wrap { cursor: pointer; }
+.brand-title { font-size: 1.3rem; margin: 0; white-space: nowrap; }
+
+/* Desktop: show center + right, hide mobile-only elements */
+.nav-center-desktop  { display: flex; }
+.nav-right-desktop   { display: flex; }
+.navbar-mobile-icons { display: none; }
+.navbar-mobile-search{ display: none; }
+.mobile-menu         { display: none; }
+
+/* ── 3. Hamburger button ─────────────────────────────────────── */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ham-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+
+/* ── 4. Mobile menu drawer ───────────────────────────────────── */
+.mobile-menu {
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  animation: fadeUp 0.2s ease;
+}
+
+.mobile-menu-item {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.mobile-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+
+.mobile-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* ── 5. Content grid ─────────────────────────────────────────── */
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+/* ── 6. Post cards ───────────────────────────────────────────── */
+.card { padding: 1rem; }
+.post-image { max-height: 300px; }
+
+/* ── 7. Notification dropdown ────────────────────────────────── */
+.notif-dropdown {
+  right: 0;
+  left: auto;
+}
+
+/* ── 8. StoryBar ─────────────────────────────────────────────── */
+.story-bar-wrap { padding: 10px 12px; }
+.story-ring, .story-add-plus { width: 52px; height: 52px; }
+
+/* ── 9. Auth forms ───────────────────────────────────────────── */
+.auth-form { padding: 0.95rem; }
+
+/* ── 10. Friend request cards ────────────────────────────────── */
+.req-card { padding: 10px; }
+
+/* ================================================================
+   TABLET  640px – 920px
+   ================================================================ */
+@media (max-width: 920px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  .side-column {
+    order: -1;
+  }
+}
+
+/* ================================================================
+   MOBILE  < 640px
+   ================================================================ */
+@media (max-width: 640px) {
+  /* Navbar: hide desktop sections, show mobile ones */
+  .nav-center-desktop  { display: none !important; }
+  .nav-right-desktop   { display: none !important; }
+  .navbar-mobile-icons { display: flex; align-items: center; gap: 8px; }
+  .navbar-mobile-search{ display: block; padding: 0 1rem 0.75rem; }
+  .hamburger-btn       { display: flex; }
+  .mobile-menu         { display: flex; }
+
+  /* Adjust top row spacing */
+  .navbar-top { padding: 0.6rem 0.75rem; }
+  .brand-title { font-size: 1.15rem; }
+
+  /* Notification dropdown — full width on mobile */
+  .notif-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+    z-index: 400;
+  }
+
+  /* Layout */
+  .app-shell { padding: 0.5rem; }
+  .content-grid { gap: 0.6rem; }
+  .main-column { gap: 0.6rem; }
+
+  /* Cards */
+  .card { padding: 0.9rem; border-radius: 12px; }
+  .post-image { max-height: 240px; }
+
+  /* Story bar */
+  .story-bar-wrap { padding: 10px; gap: 10px; border-radius: 12px; }
+  .story-ring, .story-add-plus { width: 48px; height: 48px; }
+  .story-avatar-inner { font-size: 15px; }
+
+  /* Story viewer — full screen on mobile */
+  .story-viewer {
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .story-viewer-overlay { align-items: flex-end; }
+
+  /* Post actions — wrap nicely */
+  .post-actions { gap: 0.4rem; }
+  .action-btn { font-size: 12px; padding: 5px 10px; }
+
+  /* Scroll chips */
+  .scroll-chips { padding-bottom: 0.25rem; gap: 0.4rem; }
+  .tab { font-size: 12px; padding: 0.35rem 0.7rem; }
+
+  /* Request cards */
+  .req-card { flex-wrap: wrap; gap: 8px; }
+  .req-btns { width: 100%; justify-content: flex-end; }
+  .btn-accept, .btn-decline { padding: 5px 12px; font-size: 12px; }
+
+  /* Friend requests panel */
+  .requests-list { gap: 6px; }
+
+  /* Badges in navbar — hide text on very small screens */
+  .badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+
+  /* Follow button */
+  .follow-btn { padding: 6px 14px; font-size: 12px; }
+
+  /* Points toast */
+  .points-toast { font-size: 12px; padding: 6px 12px; }
+
+  /* Story popup form — full width */
+  .story-form-popup { width: calc(100vw - 1.5rem); left: 0; }
+
+  /* Wallet page */
+  .wallet-page { padding: 0 0.5rem; }
+  .wallet-card { padding: 1rem; border-radius: 14px; }
+  .info-row { flex-direction: column; gap: 8px; align-items: flex-start; }
+
+  /* Auth page */
+  .auth-corner-bar {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .auth-logo-text {
+    font-size: 1.2rem;
+  }
+
+  .auth-page-shell {
+    padding-top: 42px;
+  }
+
+  .auth-form {
+    padding: 0.85rem;
+    border-radius: 14px;
+  }
+  .auth-form h1 { font-size: 1.4rem; }
+
+  /* Promotion grid */
+  .promotion-form-grid { grid-template-columns: 1fr; }
+  .cp-tabs { width: 100%; }
+  .cp-tab { flex: 1; text-align: center; }
+
+  .create-post .flex-between {
+    align-items: stretch;
+  }
+
+  .post-tools {
+    align-items: stretch;
+  }
+
+  .post-tools-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-end;
+  }
+
+  .compose-submit-btn {
+    min-width: 96px;
+  }
+
+  /* Comment form */
+  .comment-form { grid-template-columns: 1fr auto; }
+
+  /* Section titles */
+  h2 { font-size: 1.1rem; }
+  h3 { font-size: 1rem; }
+}
+
+/* ================================================================
+   EXTRA SMALL  < 400px
+   ================================================================ */
+@media (max-width: 400px) {
+  .brand-title { font-size: 1rem; }
+  .badge { display: none; }  /* hide points/wallet badge, use menu */
+  .post-image { max-height: 200px; }
+  .card { padding: 0.75rem; border-radius: 10px; }
+}

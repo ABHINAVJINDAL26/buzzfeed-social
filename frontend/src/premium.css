@@ -1,0 +1,496 @@
+/* ================================================================
+   DESIGN TOKENS — Brand colors, radii, shadows
+   ================================================================ */
+:root {
+  /* Brand palette */
+  --blue-primary:   #378ADD;
+  --blue-dark:      #185FA5;
+  --blue-light:     #E6F1FB;
+  --blue-text:      #0C447C;
+
+  --purple-mid:     #7F77DD;
+  --purple-light:   #EEEDFE;
+  --purple-text:    #3C3489;
+
+  --green-mid:      #639922;
+  --green-light:    #EAF3DE;
+  --green-text:     #27500A;
+
+  --red-mid:        #E24B4A;
+  --red-light:      #FCEBEB;
+  --red-text:       #A32D2D;
+
+  --amber-mid:      #EF9F27;
+  --amber-light:    #FAEEDA;
+  --amber-text:     #633806;
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.09), 0 2px 4px rgba(0,0,0,0.06);
+}
+
+/* ================================================================
+   ANIMATIONS — All keyframes
+   ================================================================ */
+
+/* Cards slide up on load */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Like heart beat */
+@keyframes heartBeat {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.4); }
+  50%  { transform: scale(0.88); }
+  75%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Story ring glow pulse */
+@keyframes storyPulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(55, 138, 221, 0.45); }
+  70%       { box-shadow: 0 0 0 7px rgba(55, 138, 221, 0); }
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+/* Toast pop-in */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+/* Slide out right (friend accept) */
+@keyframes slideOutRight {
+  to { opacity: 0; transform: translateX(24px); }
+}
+
+/* Slide out left (friend decline) */
+@keyframes slideOutLeft {
+  to { opacity: 0; transform: translateX(-24px); }
+}
+
+/* Notification dot pulse */
+@keyframes notifPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(0.82); }
+}
+
+/* ================================================================
+   NAVBAR — Premium gradient brand + sticky + gradient avatar
+   ================================================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0 0 16px 16px;
+  border-bottom: 0.5px solid var(--border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--blue-primary), var(--purple-mid));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  cursor: pointer;
+}
+
+/* Gradient avatar */
+.avatar {
+  background: linear-gradient(135deg, var(--blue-primary), var(--purple-mid)) !important;
+  color: #fff !important;
+  transition: transform 0.15s;
+}
+.avatar:hover { transform: scale(1.06); }
+
+/* Points badge hover */
+.badge-star  { transition: transform 0.15s; }
+.badge-star:hover { transform: scale(1.04); }
+
+/* Logout button */
+.button-text:hover {
+  color: var(--red-mid) !important;
+  background: var(--red-light) !important;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* ================================================================
+   STORIES ROW — Gradient border ring + pulse
+   ================================================================ */
+.story-bar-wrap {
+  animation: fadeUp 0.35s ease both;
+}
+
+/* Replace dashed border with gradient for active stories */
+.story-ring {
+  background: linear-gradient(135deg, var(--blue-primary), var(--purple-mid));
+  border: none !important;
+  padding: 2.5px;
+  animation: storyPulse 2.4s ease-in-out infinite;
+}
+
+/* Add story ring stays dashed */
+.story-add-btn .story-add-plus {
+  animation: none;
+}
+
+/* ================================================================
+   COMPOSE BOX — Sliding underline tab, disabled Post btn
+   ================================================================ */
+.create-post {
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  animation: fadeUp 0.35s ease 0.05s both;
+}
+
+.create-post .flex-between {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 16px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.create-post .section-title {
+  margin: 12px 0;
+  line-height: 1.25;
+}
+
+.create-post-form {
+  padding: 12px 16px 14px;
+}
+
+/* Tab bar at top — underline style */
+.cp-tabs {
+  display: flex;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  margin-bottom: 0;
+  border-radius: 0;
+  gap: 0;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+
+.cp-tabs::-webkit-scrollbar { display: none; }
+
+.cp-tab {
+  padding: 12px 18px !important;
+  border-radius: 0 !important;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  border: none !important;
+  background: none !important;
+  border-bottom: 2.5px solid transparent !important;
+  transition: color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cp-tab.active {
+  color: var(--blue-dark) !important;
+  border-bottom-color: var(--blue-primary) !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Compose textarea */
+.textarea {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-size: 1rem;
+  padding: 14px 16px;
+  resize: none;
+}
+
+/* Post btn — disabled until content entered */
+.button-primary {
+  padding: 9px 24px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.button-primary:hover:not(:disabled) {
+  background: var(--blue-dark) !important;
+  transform: scale(1.04);
+}
+.button-primary:active:not(:disabled) { transform: scale(0.97); }
+.button-primary:disabled {
+  background: var(--border) !important;
+  color: var(--muted) !important;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Tool buttons */
+.tool-btn {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--surface-strong);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background 0.15s, transform 0.15s;
+}
+.tool-btn:hover { background: var(--border); transform: scale(1.08); }
+
+.post-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.post-tools-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.compose-submit-btn {
+  min-width: 104px;
+}
+
+/* ================================================================
+   FEED TABS — Active = solid blue pill
+   ================================================================ */
+.scroll-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  animation: fadeUp 0.35s ease 0.1s both;
+}
+.scroll-chips::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.tab:hover { border-color: var(--blue-primary); background: var(--blue-light); color: var(--blue-dark); }
+.tab.active { background: var(--blue-primary) !important; border-color: var(--blue-primary) !important; color: #fff !important; }
+
+/* ================================================================
+   POST CARD — Hover border lift, heartBeat like, follow chip
+   ================================================================ */
+.post-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeUp 0.4s ease both;
+}
+.post-card:hover {
+  border-color: #c4d3e2;
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Like button — heart beat on liked */
+.action-btn.active-like svg,
+.action-btn.active-like .heart-icon {
+  animation: heartBeat 0.4s ease;
+}
+
+/* Follow chip on post card */
+.follow-chip {
+  margin-left: auto;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--blue-primary);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--blue-dark);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.follow-chip:hover:not(.following) { background: var(--blue-light); }
+.follow-chip.following { background: var(--blue-primary); color: #fff; border-color: var(--blue-primary); }
+.follow-chip.following:hover { background: var(--red-mid); border-color: var(--red-mid); }
+
+/* Post actions bar */
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.action-btn:hover { background: var(--surface-strong); color: var(--text); }
+
+/* ================================================================
+   SKELETON SHIMMER — Loading placeholder
+   ================================================================ */
+.skeleton {
+  background: var(--surface-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.18) 50%,
+    transparent 100%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+body.dark .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.07) 50%,
+    transparent 100%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-line   { height: 12px; border-radius: 4px; }
+.skeleton-avatar { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; }
+.skeleton-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+
+/* ================================================================
+   SIDEBAR CARDS
+   ================================================================ */
+.side-column .card {
+  animation: fadeUp 0.4s ease both;
+}
+
+/* Online dot states */
+.online-dot { transition: background 0.3s; }
+
+.online-dot.active { background: var(--green-mid) !important; }
+.online-dot.recent { background: var(--amber-mid) !important; }
+.online-dot.offline { background: #888780 !important; }
+
+.side-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.side-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.suggest-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.suggest-row + .suggest-row {
+  border-top: 0.5px solid var(--border);
+}
+
+.req-card.slide-out-right {
+  animation: slideOutRight 0.22s ease forwards;
+}
+
+.req-card.slide-out-left {
+  animation: slideOutLeft 0.22s ease forwards;
+}
+
+.notif-bell-btn {
+  position: relative;
+}
+
+.notif-bell-btn .notif-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red-mid);
+  animation: notifPulse 1.2s ease-in-out infinite;
+}
+
+.avatar-gradient {
+  background: linear-gradient(135deg, var(--blue-primary), var(--purple-mid)) !important;
+}
+
+.pts-badge {
+  border: 0.5px solid #97c459;
+  background: #eaf3de;
+  color: #27500a;
+}
+
+/* ================================================================
+   HASHTAGS
+   ================================================================ */
+.hashtag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
+}
+.hashtag.blue { color: var(--purple-text); background: var(--purple-light); }
