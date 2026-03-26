@@ -7,7 +7,7 @@ export default function AuthForm({ mode, onSubmit, loading, errorMessage, childr
   const [form, setForm] = useState({
     username: '',
     email: '',
-    identifier: '',
+    identifier: '', // Used for login
     password: ''
   });
 

@@ -68,10 +68,11 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { identifier, password } = req.body;
-    const loginValue = String(identifier || '').trim().toLowerCase();
+    const { identifier, email, password } = req.body;
+    const loginValue = String(identifier || email || '').trim().toLowerCase();
 
     if (!loginValue || !password) {
+      console.log("Login Attempt Failed: Missing identifier or password", req.body);
       return res.status(400).json({ message: 'Username/Email and password are required' });
     }
 
