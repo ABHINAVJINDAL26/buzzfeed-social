@@ -3,17 +3,27 @@ const http       = require('http');
 const { Server } = require('socket.io');
 const cors       = require('cors');
 const dotenv     = require('dotenv');
+const helmet     = require('helmet');
+const rateLimit  = require('express-rate-limit');
 const connectDB  = require('./config/db');
 
 dotenv.config();
 
 const app    = express();
 const server = http.createServer(app);
-// Allow any localhost port during development
+
+const configuredOrigins = [
+  ...(process.env.FRONTEND_URLS || '').split(','),
+  process.env.FRONTEND_URL || ''
+]
+  .map((entry) => entry.trim())
+  .filter(Boolean);
+
 const allowedOrigin = (origin, callback) => {
+  // Allow no-origin requests (curl, mobile apps) and localhost during development.
   if (!origin || /^https?:\/\/localhost(:\d+)?$/.test(origin)) {
     callback(null, true);
-  } else if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) {
+  } else if (configuredOrigins.includes(origin)) {
     callback(null, true);
   } else {
     callback(new Error('Not allowed by CORS'));
@@ -25,6 +35,16 @@ const io = new Server(server, {
 });
 
 // Middleware
+app.use(helmet());
+app.use(
+  '/api',
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 400,
+    standardHeaders: true,
+    legacyHeaders: false
+  })
+);
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(express.json({ limit: '2mb' }));
 
