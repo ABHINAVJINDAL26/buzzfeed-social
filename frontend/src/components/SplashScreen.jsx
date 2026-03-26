@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import introSong from '../assets/audio/intro.mp3';
 import './SplashScreen.css';
 
 /**
@@ -12,8 +13,8 @@ export default function SplashScreen({ onEnter }) {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Preload a premium ambient sound (Royalty Free)
-    audioRef.current = new Audio('https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a7315b.mp3');
+    // 🎵 CUSTOM SONG: Imported from Assets
+    audioRef.current = new Audio(introSong);
     audioRef.current.volume = 0.4;
     audioRef.current.loop = true;
 
