@@ -1768,3 +1768,97 @@ body.dark .follow-btn.following {
 
   
 /* NOTIFICATION BELL */ 
+/* ============================================================
+   POLLS — GEN Z REWRITE
+   ============================================================ */
+
+.poll-block {
+  margin: 1rem 0;
+  padding: 1.25rem;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.poll-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.poll-option-btn {
+  position: relative;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.poll-option-btn:hover:not(.selected) {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.poll-option-btn.selected {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+  font-weight: 700;
+}
+
+.poll-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.poll-option-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.poll-option-text {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.poll-option-stats {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: inherit;
+}
+
+.poll-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+.voted-tag {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.poll-input::placeholder {
+  color: var(--muted);
+}

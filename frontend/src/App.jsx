@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
@@ -5,6 +6,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Wallet from './pages/Wallet';
 import Profile from './pages/Profile';
+import SplashScreen from './components/SplashScreen';
 import { useAuth } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -70,6 +72,18 @@ function AppRoutes() {
 export default function App() {
   const { user } = useAuth();
   const currentUserId = user?.userId || user?._id;
+  const [showSplash, setShowSplash] = useState(() => {
+    return !sessionStorage.getItem('nova_splash_seen');
+  });
+
+  const handleSplashEnter = () => {
+    sessionStorage.setItem('nova_splash_seen', 'true');
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <SplashScreen onEnter={handleSplashEnter} />;
+  }
 
   return (
     <SocketProvider userId={currentUserId}>

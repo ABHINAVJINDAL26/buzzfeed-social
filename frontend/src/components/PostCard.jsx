@@ -107,21 +107,24 @@ export default function PostCard({ post, onLikePost, onCommentPost, onVotePoll, 
               const selected = idx === selectedPollIndex;
 
               return (
-                <button
+                <div
                   key={`${post._id}-poll-${idx}`}
-                  type="button"
                   className={`poll-option-btn ${selected ? 'selected' : ''}`}
                   onClick={() => handleVote(idx)}
-                  disabled={voting}
+                  style={{ cursor: voting || selectedPollIndex !== -1 ? 'default' : 'pointer' }}
                 >
-                  <span className="poll-fill" style={{ width: `${percent}%` }} />
-                  <span className="poll-option-content">
+                  <div className="poll-fill" style={{ width: `${percent}%` }} />
+                  <div className="poll-option-content">
                     <span className="poll-option-text">{option.text}</span>
-                    <span className="poll-option-stats">{optionVotes} • {percent}%</span>
-                  </span>
-                </button>
+                    <span className="poll-option-stats">{percent}%</span>
+                  </div>
+                </div>
               );
             })}
+          </div>
+          <div className="poll-footer">
+            <span>{totalPollVotes} votes</span>
+            {selectedPollIndex !== -1 && <span className="voted-tag">✓ Voted</span>}
           </div>
         </div>
       ) : null}

@@ -122,7 +122,9 @@ export default function CreatePost({ onCreatePost, creating }) {
     const payload = {
       text: activeTab === 'promotions' ? promoData.description.trim() : text.trim(),
       imageUrl: imageUrl.trim(),
-      pollOptions: activeTab === 'all' && showPoll ? pollOptions.filter((o) => o.trim()) : [],
+      pollOptions: activeTab === 'all' && showPoll 
+        ? pollOptions.filter((o) => o.trim()).map(text => ({ text, voters: [] })) 
+        : [],
       isPromotion: activeTab === 'promotions',
       promotionData: activeTab === 'promotions' ? { ...promoData } : null
     };

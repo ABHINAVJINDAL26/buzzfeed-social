@@ -1,0 +1,234 @@
+/* ============================================================
+   SPLASH SCREEN — CINEMATIC INTRO
+   ============================================================ */
+
+.splash-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  user-select: none;
+}
+
+.phase-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: splashFadeIn 0.8s ease both;
+}
+
+@keyframes splashFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- PHASE 1: GRADIENT VIBE --- */
+
+@keyframes gradShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.splash-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    #a855f7,
+    #7c3aed,
+    #ec4899,
+    #6366f1,
+    #8b5cf6
+  );
+  background-size: 400% 400%;
+  animation: gradShift 5s ease infinite;
+}
+
+.splash-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.splash-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gradient-logo {
+  font-size: clamp(48px, 10vw, 84px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -2px;
+  margin: 0;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-tagline {
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 8px 0 24px;
+}
+
+/* Sound wave equalizer */
+@keyframes waveBar {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1); }
+}
+
+.sound-wave {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+}
+
+.wave-bar {
+  width: 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  transform-origin: center;
+}
+
+/* --- PHASE 2: CYBERPUNK GLITCH --- */
+
+.splash-bg-glitch {
+  position: absolute;
+  inset: 0;
+  background: #050505;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 255, 0.03) 2px,
+    rgba(0, 255, 255, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+.glitch-main {
+  font-size: clamp(48px, 10vw, 84px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+@keyframes glitch-top {
+  0%,100% { clip-path: inset(0 0 90% 0); transform: translate(0); }
+  10%     { clip-path: inset(0 0 70% 0); transform: translate(-5px, -2px); }
+  30%     { clip-path: inset(20% 0 50% 0); transform: translate(5px, 2px); }
+  50%     { clip-path: inset(60% 0 20% 0); transform: translate(-3px, 1px); }
+  70%     { clip-path: inset(40% 0 40% 0); transform: translate(3px, -1px); }
+  90%     { clip-path: inset(10% 0 75% 0); transform: translate(-2px, 2px); }
+}
+
+@keyframes glitch-bottom {
+  0%,100% { clip-path: inset(90% 0 0 0); transform: translate(0); }
+  15%     { clip-path: inset(60% 0 0 0); transform: translate(5px, 2px); }
+  35%     { clip-path: inset(30% 0 35% 0); transform: translate(-5px, -2px); }
+  55%     { clip-path: inset(75% 0 5% 0); transform: translate(3px, -1px); }
+  75%     { clip-path: inset(50% 0 25% 0); transform: translate(-3px, 1px); }
+  95%     { clip-path: inset(85% 0 0 0); transform: translate(2px, -2px); }
+}
+
+.glitch-main::before,
+.glitch-main::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0.85;
+}
+
+.glitch-main::before {
+  color: #00ffff;
+  z-index: -1;
+  animation: glitch-top 2s infinite linear;
+}
+
+.glitch-main::after {
+  color: #ff00ff;
+  z-index: -2;
+  animation: glitch-bottom 2s infinite linear 0.1s;
+}
+
+.glitch-subtitle {
+  font-size: 12px;
+  letter-spacing: 0.6em;
+  color: #555;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.tap-hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 40px;
+  animation: tapPulse 2s ease infinite;
+}
+
+@keyframes tapPulse {
+  0%, 100% { opacity: 0.25; transform: translateY(0); }
+  50%       { opacity: 0.6; transform: translateY(-3px); }
+}
+
+/* --- EXITING --- */
+
+.skip-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.skip-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes splashExit {
+  from { opacity: 1; transform: scale(1); filter: blur(0); }
+  to   { opacity: 0; transform: scale(1.1); filter: blur(10px); }
+}
+
+.splash-wrapper.exiting {
+  animation: splashExit 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
