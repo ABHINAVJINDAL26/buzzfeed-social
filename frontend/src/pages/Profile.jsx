@@ -8,24 +8,22 @@ export default function Profile() {
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [listTab, setListTab] = useState('followers');
 
-  // In a real app, you would fetch user data via API.
-  // For this aesthetic-driven demo, we provide a breathtaking default state.
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        // if "me" is requested, we try to grab the active user context (handled by checking username fallback if needed)
-        // Note: For 'me' to work cleanly with a URL like /profile/user1, the API requires a true username. 
-        // We'll let the user component assume 'me' is a valid username for now or the user manually passes real names.
         const { data } = await api.get(`/users/profile/${username}`);
         
         setUserProfile({
           username: data.username,
           handle: `@${data.username.toLowerCase()}`,
           bio: 'Building the next generation of social networking with premium UI algorithms.',
-          followers: data.followers,
-          following: data.following
+          followersCount: data.followersCount || data.followers?.length || 0,
+          followingCount: data.followingCount || data.following?.length || 0,
+          followers: Array.isArray(data.followers) ? data.followers : [],
+          following: Array.isArray(data.following) ? data.following : []
         });
       } catch (err) {
         console.error("Profile load failed", err);
@@ -50,7 +48,7 @@ export default function Profile() {
           <div style={{
             background: 'var(--surface)', padding: '40px', borderRadius: '24px',
             border: '1px solid var(--border)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'
+            display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px'
           }}>
             <div style={{
               width: 120, height: 120, borderRadius: '50%', background: 'linear-gradient(135deg, #00E1FF, #8b5cf6)',
@@ -70,12 +68,76 @@ export default function Profile() {
             
             <div style={{ display: 'flex', gap: '30px', marginBottom: '30px' }}>
               <div>
-                <strong style={{ fontSize: '1.5rem', display: 'block' }}>{userProfile.followers}</strong>
+                <strong style={{ fontSize: '1.5rem', display: 'block' }}>{userProfile.followersCount}</strong>
                 <span style={{ color: 'rgba(255,255,255,0.6)' }}>Followers</span>
               </div>
               <div>
-                <strong style={{ fontSize: '1.5rem', display: 'block' }}>{userProfile.following}</strong>
+                <strong style={{ fontSize: '1.5rem', display: 'block' }}>{userProfile.followingCount}</strong>
                 <span style={{ color: 'rgba(255,255,255,0.6)' }}>Following</span>
+              </div>
+            </div>
+
+            <div style={{ width: '100%', maxWidth: '560px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '10px' }}>
+                <button
+                  className="button button-soft"
+                  style={{
+                    borderRadius: '999px',
+                    padding: '8px 16px',
+                    borderColor: listTab === 'followers' ? '#00E1FF' : undefined,
+                    color: listTab === 'followers' ? '#00E1FF' : undefined
+                  }}
+                  onClick={() => setListTab('followers')}
+                >
+                  Followers ({userProfile.followersCount})
+                </button>
+                <button
+                  className="button button-soft"
+                  style={{
+                    borderRadius: '999px',
+                    padding: '8px 16px',
+                    borderColor: listTab === 'following' ? '#00E1FF' : undefined,
+                    color: listTab === 'following' ? '#00E1FF' : undefined
+                  }}
+                  onClick={() => setListTab('following')}
+                >
+                  Following ({userProfile.followingCount})
+                </button>
+              </div>
+
+              <div
+                style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: '14px',
+                  padding: '10px',
+                  maxHeight: '220px',
+                  overflowY: 'auto',
+                  textAlign: 'left'
+                }}
+              >
+                {(listTab === 'followers' ? userProfile.followers : userProfile.following).length === 0 ? (
+                  <div style={{ color: 'var(--muted)', fontSize: '14px', textAlign: 'center', padding: '10px 0' }}>
+                    No users found.
+                  </div>
+                ) : (
+                  (listTab === 'followers' ? userProfile.followers : userProfile.following).map((entry) => (
+                    <button
+                      key={entry.userId}
+                      className="button button-soft"
+                      style={{
+                        width: '100%',
+                        justifyContent: 'space-between',
+                        borderRadius: '10px',
+                        marginBottom: '8px',
+                        padding: '8px 12px'
+                      }}
+                      onClick={() => navigate(`/profile/${entry.username}`)}
+                    >
+                      <span>@{entry.username}</span>
+                      <span style={{ color: '#00E1FF' }}>View</span>
+                    </button>
+                  ))
+                )}
               </div>
             </div>
             

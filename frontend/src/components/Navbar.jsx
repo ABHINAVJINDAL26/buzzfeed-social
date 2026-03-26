@@ -107,6 +107,17 @@ export default function Navbar({ searchTerm, onSearchChange }) {
           <button className="nav-home-btn mobile-menu-item" onClick={() => { navigate('/'); setMenuOpen(false); }}>
             🏠 Home
           </button>
+          <button
+            className="nav-home-btn mobile-menu-item"
+            onClick={() => {
+              if (user?.username) {
+                navigate(`/profile/${user.username}`);
+              }
+              setMenuOpen(false);
+            }}
+          >
+            👤 Profile
+          </button>
           <button className="nav-home-btn mobile-menu-item" onClick={() => { navigate('/wallet'); setMenuOpen(false); }}>
             💰 Wallet — ₹{walletBalance}
           </button>

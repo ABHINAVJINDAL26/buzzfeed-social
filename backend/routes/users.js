@@ -6,14 +6,28 @@ const User = require('../models/User');
 router.get('/profile/:username', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
-      .select('username followers following createdAt');
+      .select('username followers following createdAt')
+      .populate('followers', 'username')
+      .populate('following', 'username');
     
     if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const followers = (user.followers || []).map((entry) => ({
+      userId: entry._id,
+      username: entry.username
+    }));
+
+    const following = (user.following || []).map((entry) => ({
+      userId: entry._id,
+      username: entry.username
+    }));
     
     res.json({
       username: user.username,
-      followers: user.followers.length,
-      following: user.following.length,
+      followersCount: followers.length,
+      followingCount: following.length,
+      followers,
+      following,
       joined: user.createdAt
     });
   } catch (err) {
