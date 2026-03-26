@@ -10,12 +10,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleLogin = async ({ email, password }) => {
+  const handleLogin = async ({ identifier, password }) => {
     setLoading(true);
     setErrorMessage('');
 
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { identifier, password });
       login(response.data);
       navigate('/', { replace: true });
     } catch (error) {

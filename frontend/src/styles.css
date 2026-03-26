@@ -6,8 +6,8 @@
   --surface-strong: #f1f5f9;
   --text: #0f172a;
   --muted: #64748b;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
+  --primary: #0f172a;
+  --primary-hover: #000000;
   --primary-contrast: #ffffff;
   --danger: #ef4444;
   --border: #e2e8f0;
@@ -25,9 +25,9 @@ body.dark {
   --surface-strong: rgba(51, 65, 85, 0.8);
   --text: #f8fafc;
   --muted: #94a3b8;
-  --primary: #3b82f6;
-  --primary-hover: #60a5fa;
-  --primary-contrast: #ffffff;
+  --primary: #ffffff;
+  --primary-hover: #e2e8f0;
+  --primary-contrast: #000000;
   --danger: #f87171;
   --border: rgba(255, 255, 255, 0.08);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
@@ -1861,4 +1861,49 @@ body.dark .follow-btn.following {
 
 .poll-input::placeholder {
   color: var(--muted);
+}
+
+/* HASHTAGS */
+.hashtag {
+  color: var(--primary);
+  opacity: 0.9;
+  font-weight: 500;
+}
+.hashtag:hover {
+  text-decoration: underline;
+}
+
+/* AUTH ICONS & ACCENTS */
+.auth-trophy-icon svg {
+  stroke: var(--primary);
+}
+
+.auth-logo-dot {
+  background: var(--primary);
+}
+
+/* TOOLBAR ICONS */
+.tool-btn.icon-blue {
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-home-btn {
+  background: var(--primary) !important;
+  color: var(--primary-contrast) !important;
+  border: 1px solid var(--border);
+}
+
+.cp-tab.active {
+  border-bottom: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.button-primary {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.button-primary:hover {
+  background: var(--primary-hover);
 }

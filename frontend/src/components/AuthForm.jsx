@@ -7,6 +7,7 @@ export default function AuthForm({ mode, onSubmit, loading, errorMessage, childr
   const [form, setForm] = useState({
     username: '',
     email: '',
+    identifier: '',
     password: ''
   });
 
@@ -74,23 +75,43 @@ export default function AuthForm({ mode, onSubmit, loading, errorMessage, childr
           </label>
         ) : null}
 
-        <label className="auth-field">
-          <span className="auth-label">Email</span>
-          <div className="input-group">
-            <span className="input-icon">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            </span>
-            <input
-              className="input pill-input"
-              type="email"
-              name="email"
-              placeholder="name@example.com"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </label>
+        {!isSignup ? (
+          <label className="auth-field">
+            <span className="auth-label">Username or Email</span>
+            <div className="input-group">
+              <span className="input-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              </span>
+              <input
+                className="input pill-input"
+                type="text"
+                name="identifier"
+                placeholder="Enter username or email"
+                value={form.identifier}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </label>
+        ) : (
+          <label className="auth-field">
+            <span className="auth-label">Email</span>
+            <div className="input-group">
+              <span className="input-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              </span>
+              <input
+                className="input pill-input"
+                type="email"
+                name="email"
+                placeholder="name@example.com"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </label>
+        )}
 
         <label className="auth-field">
           <span className="auth-label">Password</span>

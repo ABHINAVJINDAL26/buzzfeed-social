@@ -23,7 +23,7 @@ function renderTextWithHashtags(text) {
   return words.map((word, index) => {
     if (word.startsWith('#') && word.length > 1) {
       // randomly assign blue or orange style purely for aesthetic reasons
-      const colorClass = index % 3 === 0 ? 'hashtag blue' : 'hashtag';
+      const colorClass = 'hashtag';
       return <span key={index} className={colorClass}>{word}</span>;
     }
     return word;
