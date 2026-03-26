@@ -170,6 +170,18 @@ export default function Home() {
     }
   };
 
+  const votePoll = async (postId, optionIndex) => {
+    try {
+      const response = await api.post(`/posts/${postId}/poll/vote`, { optionIndex });
+      const updated = response.data;
+      setPosts((prev) => prev.map((post) => (post._id === postId ? updated : post)));
+      return true;
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || 'Failed to vote on poll');
+      return false;
+    }
+  };
+
   return (
     <div className="app-shell">
       <Navbar
@@ -205,6 +217,7 @@ export default function Home() {
             loading={loading}
             onLikePost={likePost}
             onCommentPost={commentPost}
+            onVotePoll={votePoll}
             onLoadMore={() => setPage((prev) => prev + 1)}
             canLoadMore={canLoadMore}
           />

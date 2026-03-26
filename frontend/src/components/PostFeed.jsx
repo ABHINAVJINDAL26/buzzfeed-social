@@ -1,7 +1,7 @@
 import PostCard from './PostCard';
 import SkeletonCard from './SkeletonCard';
 
-export default function PostFeed({ posts, loading, onLikePost, onCommentPost, onLoadMore, canLoadMore }) {
+export default function PostFeed({ posts, loading, onLikePost, onCommentPost, onVotePoll, onLoadMore, canLoadMore }) {
   if (loading && posts.length === 0) {
     return (
       <div className="stack" style={{ gap: '1rem' }}>
@@ -18,7 +18,13 @@ export default function PostFeed({ posts, loading, onLikePost, onCommentPost, on
       {posts.length === 0 ? <p className="muted">No posts found. Try changing filter or search.</p> : null}
 
       {posts.map((post) => (
-        <PostCard key={post._id} post={post} onLikePost={onLikePost} onCommentPost={onCommentPost} />
+        <PostCard
+          key={post._id}
+          post={post}
+          onLikePost={onLikePost}
+          onCommentPost={onCommentPost}
+          onVotePoll={onVotePoll}
+        />
       ))}
 
       {canLoadMore ? (

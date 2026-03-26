@@ -17,6 +17,22 @@ const commentSchema = new mongoose.Schema(
   { timestamps: { createdAt: true, updatedAt: false }, _id: false }
 );
 
+const pollOptionSchema = new mongoose.Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 120
+    },
+    voters: {
+      type: [String],
+      default: []
+    }
+  },
+  { _id: false }
+);
+
 const postSchema = new mongoose.Schema(
   {
     author: {
@@ -50,7 +66,7 @@ const postSchema = new mongoose.Schema(
       default: []
     },
     pollOptions: {
-      type: [String],
+      type: [pollOptionSchema],
       default: []
     },
     isPromotion: {
