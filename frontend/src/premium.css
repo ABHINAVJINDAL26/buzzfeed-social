@@ -352,6 +352,16 @@
 .follow-chip:hover:not(.following) { background: var(--blue-light); }
 .follow-chip.following { background: var(--blue-primary); color: #fff; border-color: var(--blue-primary); }
 .follow-chip.following:hover { background: var(--red-mid); border-color: var(--red-mid); }
+.follow-chip.requested {
+  background: #eeedfe;
+  color: #3c3489;
+  border-color: #afa9ec;
+}
+.follow-chip.incoming {
+  background: #faeeda;
+  color: #633806;
+  border-color: #ef9f27;
+}
 
 /* Post actions bar */
 .action-btn {
