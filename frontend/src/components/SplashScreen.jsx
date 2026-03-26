@@ -4,8 +4,13 @@ import './SplashScreen.css';
 
 /**
  * SplashScreen Component
- * Phase 1: Gradient Vibe (0-3s)
- * Phase 2: Cyberpunk Glitch (3s+)
+ * Sequence: Phase 1 (Gradient) -> Phase 2 (Glitch) -> App
+ * 
+ * Rules:
+ * 1. Touching Gradient starts music and moves to Glitch.
+ * 2. 10s auto-wait on Gradient moves to Glitch (silent).
+ * 3. 5s auto-wait on Glitch moves to App (stops music).
+ * 4. Touching Glitch moves to App (stops music).
  */
 export default function SplashScreen({ onEnter }) {
   const [phase, setPhase] = useState('gradient'); // 'gradient' | 'glitch'
@@ -13,55 +18,75 @@ export default function SplashScreen({ onEnter }) {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // 🎵 CUSTOM SONG: Imported from Assets
+    // Preload audio
     audioRef.current = new Audio(introSong);
-    audioRef.current.volume = 0.4;
+    audioRef.current.volume = 0.5;
     audioRef.current.loop = true;
 
-    // switch to glitch phase after 3 seconds
-    const phaseTimer = setTimeout(() => {
-      setPhase('glitch');
-    }, 3000);
-
-    // auto-dismiss after 7 seconds
-    const autoTimer = setTimeout(() => {
-      handleEnter();
-    }, 7000);
-
+    // cleanup on unmount
     return () => {
-      clearTimeout(phaseTimer);
-      clearTimeout(autoTimer);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     };
   }, []);
+
+  useEffect(() => {
+    let timer;
+    if (phase === 'gradient') {
+      // Auto switch to glitch after 10s if user does nothing
+      timer = setTimeout(() => {
+        setPhase('glitch');
+      }, 10000);
+    } else if (phase === 'glitch') {
+      // Auto enter app after 5s on glitch
+      timer = setTimeout(() => {
+        handleEnter();
+      }, 5000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [phase]);
 
   const handleEnter = () => {
     if (exiting) return;
     
-    // Attempt play on user interaction (Required by browsers)
+    // Stop music immediately when transitioning to login/signup
     if (audioRef.current) {
-      audioRef.current.play().catch(e => console.log("Audio play blocked", e));
+      audioRef.current.pause();
     }
 
     setExiting(true);
-    // Slight delay for exit animation before unmounting
     setTimeout(() => {
       onEnter();
     }, 600);
   };
 
+  const handleSplashClick = () => {
+    if (exiting) return;
+
+    if (phase === 'gradient') {
+      // Start music only if user touched it
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(e => console.log("Audio blocked", e));
+      }
+      setPhase('glitch');
+    } else {
+      // In glitch phase, clicking enters the app
+      handleEnter();
+    }
+  };
+
   const handleSkip = (e) => {
     e.stopPropagation();
-    if (audioRef.current) audioRef.current.pause();
-    setExiting(true);
-    setTimeout(() => {
-      onEnter();
-    }, 300);
+    handleEnter();
   };
 
   return (
     <div 
       className={`splash-wrapper ${exiting ? 'exiting' : ''}`}
-      onClick={handleEnter}
+      onClick={handleSplashClick}
     >
       {/* PHASE 1: GRADIENT VIBE */}
       {phase === 'gradient' && (
@@ -85,6 +110,7 @@ export default function SplashScreen({ onEnter }) {
                 />
               ))}
             </div>
+            <p className="tap-hint" style={{ marginTop: '20px' }}>Tap to begin the journey</p>
           </div>
         </div>
       )}
@@ -98,7 +124,7 @@ export default function SplashScreen({ onEnter }) {
           <div className="splash-content">
             <h1 className="glitch-main" data-text="NOVA">NOVA</h1>
             <p className="glitch-subtitle">EST. 2026</p>
-            <p className="tap-hint">Tap anywhere to enter</p>
+            <p className="tap-hint">Synthesizing network connection...</p>
           </div>
         </div>
       )}
