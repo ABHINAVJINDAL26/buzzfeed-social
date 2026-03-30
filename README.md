@@ -1,6 +1,6 @@
 # TaskPlanet Social
 
-A full-stack social platform with real-time interactions, points wallet mechanics, stories, poll voting, and a premium responsive UI.
+A full-stack social platform with real-time interactions, points wallet mechanics, stories, poll voting, and a premium responsive UI
 
 ## Overview
 
